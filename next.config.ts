@@ -10,8 +10,8 @@ const nextConfig: NextConfig = {
   ...(isGithubPages
     ? {
         output: "export" as const,
-        basePath: "/p32-landing-02",
-        assetPrefix: "/p32-landing-02/",
+        basePath: "/p32-ltd-website",
+        assetPrefix: "/p32-ltd-website/",
         images: { unoptimized: true },
       }
     : {}),

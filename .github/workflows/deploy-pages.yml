@@ -2,7 +2,7 @@ name: Deploy preview to GitHub Pages
 
 on:
   push:
-    branches: [build/initial-concept]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -27,7 +27,7 @@ jobs:
       - run: npm run build
         env:
           GITHUB_PAGES: "true"
-          NEXT_PUBLIC_BASE_PATH: /p32-landing-02
+          NEXT_PUBLIC_BASE_PATH: /p32-ltd-website
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out

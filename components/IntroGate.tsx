@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 // Entry gate: a field of drifting monochrome data. Somewhere in it sits the
 // string PROJECT 32, which glints in signal blue every 3.2s. Clicking it
@@ -62,6 +62,22 @@ function buildField(): Row[] {
   });
 }
 
+// Live numbers: coordinates and hex values are wrapped in spans that an
+// interval rewrites in place (whole value at a time, same width, so lines
+// never jitter). Coordinates creep like a tracking feed; hex refreshes.
+const LIVE = /(\d{2}\.\d{4} [NE]|0x[0-9A-F]{3}|\b[0-9a-f]{4}\b)/;
+
+function Live({ text }: { text: string }) {
+  return text.split(LIVE).map((part, i) => (i % 2 ? <span key={i} className="intro-num">{part}</span> : part));
+}
+
+function tick(value: string) {
+  if (value.startsWith("0x")) return `0x${rand(0xfff).toString(16).toUpperCase().padStart(3, "0")}`;
+  if (value.length === 4) return rand(0xffff).toString(16).padStart(4, "0");
+  const next = Math.min(Math.max(parseFloat(value) + (Math.random() - 0.5) * 0.008, 31), 34.9999);
+  return `${next.toFixed(4)}${value.slice(-2)}`;
+}
+
 // Read once per page load: whether the before-paint script gated this
 // session, and the field built for this viewport. Module-level so they are
 // stable across renders; read through useSyncExternalStore so the server
@@ -83,6 +99,21 @@ export function IntroGate() {
   );
   const [phase, setPhase] = useState<"idle" | "lock" | "open" | "done">("idle");
   const [lineY, setLineY] = useState(0);
+  const fieldRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = fieldRef.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const nums = Array.from(el.querySelectorAll<HTMLElement>(".intro-num"));
+    const perTick = Math.ceil(nums.length * 0.04);
+    const id = window.setInterval(() => {
+      for (let i = 0; i < perTick; i++) {
+        const n = nums[rand(nums.length)];
+        n.textContent = tick(n.textContent ?? "");
+      }
+    }, 80);
+    return () => window.clearInterval(id);
+  }, [rows]);
 
   function enter(event: React.MouseEvent<HTMLButtonElement>) {
     if (phase !== "idle") return;
@@ -115,7 +146,7 @@ export function IntroGate() {
       style={{ "--lock-y": `${lineY}px` } as React.CSSProperties}
     >
       {rows && (
-        <div className="intro-field" aria-hidden={phase !== "idle" ? true : undefined}>
+        <div ref={fieldRef} className="intro-field" aria-hidden={phase !== "idle" ? true : undefined}>
           {rows.map((row, i) => (
             <div
               key={i}
@@ -124,13 +155,13 @@ export function IntroGate() {
               data-target={row.target || undefined}
               style={{ animationDuration: `${Math.abs(row.drift)}s`, animationDirection: row.drift > 0 ? "normal" : "reverse" }}
             >
-              <span aria-hidden="true">{row.before}</span>
+              <span aria-hidden="true"><Live text={row.before} /></span>
               {row.target && (
                 <>
                   <button type="button" className="intro-target" onClick={enter} aria-label="Enter the P32 site">
                     {TARGET}
                   </button>
-                  <span aria-hidden="true">{row.after}</span>
+                  <span aria-hidden="true"><Live text={row.after} /></span>
                 </>
               )}
             </div>

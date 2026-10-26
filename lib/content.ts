@@ -1,7 +1,6 @@
-// All copy below is reproduced verbatim from the approved P32 brief.
-// Nothing here is invented: no clients, partners, metrics, or capabilities
-// have been added. Per the client's explicit instruction, every em/en dash
-// originally in this file has been normalized to a plain hyphen.
+// P32 content from the approved brief, with the October 2026 client updates.
+// Physical protection describes the supplied service scope in general terms.
+// No client-specific operations or commercial terms are published.
 
 export const vision = {
   headline: "DEFENSE SOLUTION ARCHITECTS that will make your MISSION POSSIBLE",
@@ -134,10 +133,33 @@ export const personnel = {
       id: "cyber-leadership",
       title: "Cyber Leadership & Strategic Advisory",
       people: [
-        { name: "Dana Toren", roles: ["VP Cyber & NORTH GATE Solutions"], portrait: "dana-toren" },
+        { name: "Dana Toren", roles: ["VP Cyber Solutions"], portrait: "dana-toren" },
         { name: "Yuval Segev", roles: ["Senior Advisor, National-Level Cyber Strategy"], portrait: "yuval-segev" },
       ] satisfies Person[],
     },
+    {
+      id: "security-leadership",
+      title: "Security & Regulation",
+      people: [
+        { name: "Eran Mesika", roles: ["Head of Security & Regulation"], portrait: "eran-mesika" },
+      ] satisfies Person[],
+    },
+  ],
+};
+
+export const physicalProtection = {
+  label: "Layered Physical Protection",
+  headline: "From security survey to fully operational protection.",
+  intro: "P32 designs, builds, and manages physical security programs around the people, places, and operations that matter. We begin with a comprehensive security survey and risk assessment, then translate the findings into a tailored operational framework - bringing together qualified personnel, security technologies, clear procedures, and ongoing oversight.",
+  closing: "From executive and family protection to residential and corporate security, secure transportation, and emergency readiness, every layer works together under one coordinated plan.",
+  stages: ["Assess", "Design", "Deploy", "Manage"],
+  services: [
+    { title: "Security Surveys & Risk Assessments", detail: "On-site assessments, vulnerability mapping, and prioritized recommendations. We evaluate existing measures, identify gaps, and define the protection your environment requires." },
+    { title: "Security Program Design & Implementation", detail: "Security architecture, staffing plans, routine and emergency SOPs, and coordination of security systems. We turn assessment findings into an operational security program." },
+    { title: "Executive & Family Protection", detail: "Discreet close protection tailored to daily routines and individual risk, supported by qualified personnel and clear contingency procedures." },
+    { title: "Residential & Corporate Security", detail: "Facility protection, access control, surveillance, and mail and package screening, coordinated across homes, offices, and additional assets." },
+    { title: "Secure Transportation & Travel Planning", detail: "Protective driving, route planning, vetted local security providers, and contingency arrangements for daily movements and international travel." },
+    { title: "Operational Management & Readiness", detail: "Personnel vetting, training, supervision, emergency response planning, and periodic audits. Continuous review keeps the program aligned with changing risks and operational needs." },
   ],
 };
 

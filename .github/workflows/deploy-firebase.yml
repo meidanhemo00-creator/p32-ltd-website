@@ -1,0 +1,43 @@
+name: Deploy to Firebase Hosting
+
+# A merged pull request lands on main as a push, so this covers both cases.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-firebase
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # OIDC token for Workload Identity Federation
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # app/layout.tsx emits noindex robots meta unless VERCEL_ENV=production.
+      # Firebase serves the live site (p32.ltd), so build the indexable version.
+      - run: npm run build
+        env:
+          VERCEL_ENV: production
+          NEXT_TELEMETRY_DISABLED: 1
+
+      # Keyless auth: the org policy forbids service account keys. The WIF
+      # provider only accepts tokens from main of quantum-soft-dev/p32-site.
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/223964546679/locations/global/workloadIdentityPools/github/providers/p32-site
+          service_account: github-deploy@p32-ltd.iam.gserviceaccount.com
+
+      - run: npx --yes firebase-tools deploy --only hosting --project p32-ltd --non-interactive

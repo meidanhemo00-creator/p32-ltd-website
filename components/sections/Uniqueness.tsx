@@ -57,7 +57,7 @@ function LifecycleTrace() {
 
 export function Uniqueness() {
   return (
-    <section className="p32-section tx-grain-light bg-p32-white text-p32-black">
+    <section id="approach" className="p32-section tx-grain-light bg-p32-white text-p32-black">
       <div className="p32-container flex flex-col items-center text-center">
         <Headline />
         <p

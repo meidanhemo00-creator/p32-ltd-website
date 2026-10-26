@@ -71,7 +71,7 @@ function GroupHeader({ index, title, count, id }: { index: number; title: string
 }
 
 export function Personnel() {
-  const [board, cyber] = personnel.groups;
+  const [board, cyber, security] = personnel.groups;
   const [titleLead, titleTail] = personnel.title.split(/\s(?=&)/);
   return (
     <div className="p32-container mt-16 md:mt-24">
@@ -126,6 +126,22 @@ export function Personnel() {
                 Explore capability
               </span>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby={`${security.id}-title`} className="mt-14 md:mt-20">
+        <GroupHeader index={2} title={security.title} count={security.people.length} id={`${security.id}-title`} />
+        <div className="mt-6 grid gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-5 md:mt-8">
+          <ul className="grid gap-y-6">
+            {security.people.map((person, i) => <PersonEntry key={person.name} person={person} index={i} />)}
+          </ul>
+          <div data-reveal="up" className="flex flex-col justify-end border-l border-p32-gray-800 pl-5 sm:col-span-2 lg:col-start-4 lg:pl-8">
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-p32-gray-500">Capability</p>
+            <a href="#physical-protection" className="p32-press mt-3 inline-flex flex-col text-xl font-medium leading-snug tracking-tight text-p32-white transition-colors hover:text-p32-signal md:text-2xl">
+              <span>Layered Physical Protection</span>
+              <span className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-p32-signal">Explore capability</span>
+            </a>
           </div>
         </div>
       </section>

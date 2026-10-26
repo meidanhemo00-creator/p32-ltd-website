@@ -1,0 +1,11 @@
+.git
+.claude
+.next
+out
+node_modules
+Dockerfile
+.dockerignore
+*.md
+.env*
+test-results
+playwright-report

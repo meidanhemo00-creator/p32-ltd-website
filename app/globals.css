@@ -62,7 +62,29 @@ html {
   background: var(--p32-black);
   scroll-behavior: auto;
   overflow-x: hidden;
+  scroll-padding-top: 6rem;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+.physical-service summary::-webkit-details-marker { display: none; }
+.physical-service summary::marker { content: ""; }
+.physical-service summary:hover h3,
+.physical-service[open] summary h3 { color: var(--p32-signal-deep); }
+.physical-toggle::before,
+.physical-toggle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+}
+.physical-toggle::after { transform: rotate(90deg); transition: transform 180ms ease; }
+.physical-service[open] .physical-toggle::after { transform: rotate(0deg); }
 
 body {
   background: var(--p32-white);

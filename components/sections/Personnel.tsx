@@ -22,13 +22,19 @@ function PersonEntry({ person, index }: { person: Person; index: number }) {
         className="personnel-entry group grid grid-cols-[7rem_1fr] items-start gap-4 outline-none sm:block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-p32-signal"
       >
         <div className="relative aspect-square overflow-hidden bg-p32-gray-800">
-          <Image
-            src={assetPath(`/media/team/portraits/${person.portrait}.webp`)}
-            alt={`Portrait of ${person.name}`}
-            fill
-            sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 112px"
-            className="personnel-portrait"
-          />
+          {person.portrait ? (
+            <Image
+              src={assetPath(`/media/team/portraits/${person.portrait}.webp`)}
+              alt={`Portrait of ${person.name}`}
+              fill
+              sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 112px"
+              className="personnel-portrait"
+            />
+          ) : (
+            <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center font-mono text-2xl tracking-[0.12em] text-p32-gray-500 sm:text-4xl">
+              {person.name.split(" ").map((part) => part[0]).join("")}
+            </span>
+          )}
         </div>
         <figcaption className="sm:mt-4">
           <span aria-hidden="true" className="flex items-center gap-3">

@@ -113,7 +113,8 @@ export const hero = {
 export type Person = {
   name: string;
   roles: string[];
-  portrait: string;
+  // Omitted until the client sends a photo; the entry then shows initials.
+  portrait?: string;
 };
 
 export const personnel = {
@@ -127,9 +128,13 @@ export const personnel = {
     { name: "Daniel Goldberg", roles: ["COO", "Director", "Co-Founder"], portrait: "daniel-goldberg" },
     { name: "Guy Farache", roles: ["CGO, USA, Canada & Australia", "Co-Founder"], portrait: "guy-farache" },
     { name: "Boris Plis", roles: ["CTO", "Co-Founder"], portrait: "boris-plis" },
-    { name: "Dana Toren", roles: ["VP Cyber Solutions"], portrait: "dana-toren" },
-    { name: "Yuval Segev", roles: ["Senior Advisor, National-Level Cyber Strategy"], portrait: "yuval-segev" },
+    { name: "Hiday Levi", roles: ["CFO"] },
+    { name: "Dana Toren", roles: ["Head of Cyber"], portrait: "dana-toren" },
+    { name: "Alicja Górska", roles: ["Mission Operations Lead"] },
+    { name: "Erez Shitrit", roles: ["Regional Account Manager"] },
     { name: "Eran Mesika", roles: ["Head of Security & Regulation"], portrait: "eran-mesika" },
+    { name: "Amit Friedman", roles: ["Chief of Staff"] },
+    { name: "Yuval Segev", roles: ["Senior Advisor, National-Level Cyber Strategy"], portrait: "yuval-segev" },
   ] satisfies Person[],
 };
 

@@ -82,10 +82,12 @@ export const execution = {
 export const team = {
   title: "The Team",
   headline: "The world sees the outcome. It almost never sees the people who built it.",
-  bodyOne:
-    "Our team combines elite operational command experience with decades of proven technological innovation.",
-  bodyTwo:
-    "We come from the units that faced these challenges, and we bring the track record of scaling ideas into successful war capabilities based on advanced technology.",
+  // Shortened by the client (October 2026) to three statement lines.
+  lines: [
+    "Elite operational command experience.",
+    "Decades of proven technological innovation.",
+    "From the units that faced these challenges.",
+  ],
   // Closing line chosen by the client (October 2026), leading into Contact.
   closing: ["Some of our work can't be shown here.", "Let's talk about yours."],
   cta: "Get in touch",
@@ -118,10 +120,6 @@ export type Person = {
 };
 
 export const personnel = {
-  supportOne:
-    "With a foundation built on expertise and innovation, our team of industry veterans and visionary engineers is dedicated to pushing the boundaries of defense technology.",
-  supportTwo:
-    "From artificial intelligence to cybersecurity, we explore every avenue to ensure our solutions are not just innovative, but also effective and reliable.",
   people: [
     { name: "Liron Farache", roles: ["CEO", "Director", "Co-Founder"], portrait: "liron-farache" },
     { name: "Boris Shaglov", roles: ["VP Business Development", "Director", "Co-Founder"], portrait: "boris-shaglov" },

@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
-import { personnel, team } from "@/lib/content";
+import { team } from "@/lib/content";
 import { assetPath } from "@/lib/basePath";
 import { splitWords } from "@/lib/splitWords";
 import { Personnel } from "@/components/sections/Personnel";
@@ -61,15 +61,16 @@ export function Team() {
             }}
           />
         </div>
-        <div
+        <p
           data-reveal="up"
-          className="mx-auto mt-6 max-w-2xl space-y-3 text-center text-pretty text-base leading-relaxed text-p32-gray-300 sm:text-lg md:mt-8"
+          className="mx-auto mt-6 max-w-2xl text-center text-lg leading-relaxed text-p32-gray-300 sm:text-xl md:mt-8"
         >
-          <p>{team.bodyOne}</p>
-          <p>{team.bodyTwo}</p>
-          <p>{personnel.supportOne}</p>
-          <p>{personnel.supportTwo}</p>
-        </div>
+          {team.lines.map((line) => (
+            <span key={line} className="block">
+              {line}
+            </span>
+          ))}
+        </p>
       </div>
 
       <Personnel />

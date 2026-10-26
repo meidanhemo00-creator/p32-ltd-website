@@ -48,3 +48,6 @@ next-env.d.ts
 firebase-debug.log
 test-results/
 playwright-report/
+
+# netlify
+.netlify/

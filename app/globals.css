@@ -605,3 +605,134 @@ html.js-reveal [data-reveal="words"][data-in-view] .word-reveal {
   background: var(--p32-signal);
   animation: p32-cue-pulse 2.2s var(--ease-out) infinite;
 }
+
+/*
+  Entry gate (components/IntroGate.tsx). Only displayed under html.p32-gated,
+  which the inline script in app/layout.tsx sets before paint, so no-JS
+  visitors never meet it. While gated the page cannot scroll and its CSS
+  animations hold at frame zero, so the hero film plays as the gate opens.
+*/
+.intro-gate { display: none; }
+html.p32-gated { overflow: hidden; }
+html.p32-gated .intro-gate,
+.intro-gate[data-phase="open"] { display: block; }
+html.p32-gated body > :not(.intro-gate),
+html.p32-gated body > :not(.intro-gate) * { animation-play-state: paused !important; }
+
+.intro-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: var(--p32-black);
+  color: var(--p32-gray-700);
+  font-family: var(--font-mono);
+  clip-path: inset(0 0 0 0);
+  transition:
+    clip-path 850ms var(--ease-in-out),
+    opacity 250ms ease 800ms;
+}
+.intro-gate[data-phase="open"] {
+  clip-path: inset(var(--lock-y) 0 calc(100% - var(--lock-y) - 1px) 0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-field {
+  position: absolute;
+  inset: 0;
+  font-size: 12px;
+  line-height: 20px;
+  white-space: pre;
+  animation: intro-field-in 900ms var(--ease-out) both;
+}
+@media (max-width: 639px) {
+  .intro-field { font-size: 11px; line-height: 18px; }
+}
+.intro-row {
+  width: max-content;
+  animation-name: intro-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  transition: opacity 250ms ease;
+}
+.intro-row[data-tone="1"] { color: var(--p32-gray-800); }
+.intro-row[data-tone="2"] { color: var(--p32-gray-600); }
+.intro-row[data-target] {
+  animation-name: intro-sway;
+  animation-direction: alternate !important;
+  animation-timing-function: ease-in-out;
+}
+.intro-gate:not([data-phase="idle"]) .intro-row:not([data-target]) { opacity: 0.12; }
+
+.intro-target {
+  position: relative;
+  margin: -6px -4px;
+  padding: 6px 4px;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  animation: intro-glint 3.2s ease-in-out 1.2s infinite;
+}
+.intro-target:hover,
+.intro-target:focus-visible,
+.intro-gate:not([data-phase="idle"]) .intro-target {
+  color: var(--p32-signal);
+  animation: none;
+}
+.intro-target:focus-visible {
+  outline: 1px solid var(--p32-signal);
+  outline-offset: 2px;
+}
+
+.intro-lock {
+  position: absolute;
+  inset-inline: 0;
+  top: var(--lock-y);
+  height: 1px;
+  background: var(--p32-signal);
+  transform: scaleX(0);
+  transition: transform 450ms var(--ease-out);
+}
+.intro-gate:not([data-phase="idle"]) .intro-lock { transform: scaleX(1); }
+
+.intro-hint {
+  position: absolute;
+  left: var(--container-pad);
+  bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  background: var(--p32-black);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--p32-gray-300);
+  animation: intro-field-in 900ms var(--ease-out) 400ms both;
+}
+.intro-hint-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--p32-signal);
+  animation: intro-glint-dot 3.2s ease-in-out 1.2s infinite;
+}
+.intro-gate:not([data-phase="idle"]) .intro-hint { opacity: 0; transition: opacity 200ms ease; }
+
+@keyframes intro-field-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes intro-drift { from { transform: translateX(0); } to { transform: translateX(-33%); } }
+@keyframes intro-sway { from { transform: translateX(0); } to { transform: translateX(-4%); } }
+@keyframes intro-glint {
+  0%, 62%, 100% { color: inherit; }
+  72%, 84% { color: var(--p32-signal); }
+}
+@keyframes intro-glint-dot {
+  0%, 62%, 100% { opacity: 0.35; }
+  72%, 84% { opacity: 1; }
+}
+
+/* Reduced motion: no drift or glint, so the target simply reads brighter. */
+@media (prefers-reduced-motion: reduce) {
+  .intro-target { color: var(--p32-gray-300); }
+}

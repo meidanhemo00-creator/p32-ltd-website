@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { assetPath } from "@/lib/basePath";
+import { IntroGate } from "@/components/IntroGate";
 import "./globals.css";
 
 // Primary face: Instrument Sans -- body copy, interactive elements, names,
@@ -71,6 +72,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               "try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-reveal')}}catch(e){}",
           }}
         />
+        {/* Before-paint as well: holds the site behind the entry gate until
+            this tab session has entered once. No JS, no gate. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(!sessionStorage.getItem('p32-entered')){document.documentElement.classList.add('p32-gated')}}catch(e){}",
+          }}
+        />
+        <IntroGate />
         {children}
       </body>
     </html>

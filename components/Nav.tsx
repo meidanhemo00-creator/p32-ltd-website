@@ -4,14 +4,12 @@ import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { P32LogoOnDark } from "./Logo";
 
-export function Nav({ page = "home" }: { page?: "home" | "cyber" }) {
+const links = [["#approach", "Our approach"], ["#playbook", "The playbook"], ["#physical-protection", "Physical protection"], ["#team", "The team"], ["#contact", "Contact"]];
+
+export function Nav() {
   const [open, setOpen] = useState(false);
   const menuId = useId();
   const menuButton = useRef<HTMLButtonElement>(null);
-  const isHome = page === "home";
-  const links = isHome
-    ? [["#approach", "Our approach"], ["#playbook", "The playbook"], ["#physical-protection", "Physical protection"], ["/cyber-intelligence", "Cyber intelligence"], ["#team", "Our team"], ["#contact", "Contact"]]
-    : [["/", "Main site"], ["#work-title", "Our process"], ["#deliver-title", "Capabilities"], ["#who-title", "Our team"], ["#contact", "Contact"]];
 
   useEffect(() => {
     if (!open) return;
@@ -27,7 +25,7 @@ export function Nav({ page = "home" }: { page?: "home" | "cyber" }) {
   return (
     <header className="site-header fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-black/90 text-p32-white backdrop-blur-xl">
       <div className="p32-container flex h-20 items-center justify-between gap-5">
-        <Link href={isHome ? "#top" : "/"} prefetch={false} aria-label={isHome ? "P32, back to top" : "P32 home"} onClick={() => setOpen(false)} className="shrink-0 py-3">
+        <Link href="#top" prefetch={false} aria-label="P32, back to top" onClick={() => setOpen(false)} className="shrink-0 py-3">
           <P32LogoOnDark height={22} priority />
         </Link>
         <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex xl:gap-8">

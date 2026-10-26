@@ -1,5 +1,6 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
-import { team } from "@/lib/content";
+import { personnel, team } from "@/lib/content";
 import { assetPath } from "@/lib/basePath";
 import { splitWords } from "@/lib/splitWords";
 import { Personnel } from "@/components/sections/Personnel";
@@ -9,13 +10,13 @@ import { Personnel } from "@/components/sections/Personnel";
 // describes only what is visible, and no claim about the identity, unit, or
 // employment of the people photographed is made anywhere on the page.
 //
-// The photograph is now a supporting introduction to the personnel register
-// below it, not the section's subject: a controlled editorial frame (~85%
+// One section, titled The Team: headline, photograph, copy, the people as a
+// single register, then a closing line into Contact. The photograph is a
+// supporting introduction, not the section's subject: a controlled editorial frame (~85%
 // of the content width, 240-330px tall on mobile, 380-480px on desktop)
 // instead of a full-bleed viewport-height image. The source is 3:2 with the
 // group's helmets at ~18% from the top; `center 28%` keeps every head and
 // torso inside the wider frame and trims only legs and empty ground.
-const [lineOne, lineTwo] = team.headline.split(/(?<=\.)\s+/);
 
 export function Team() {
   return (
@@ -23,13 +24,16 @@ export function Team() {
       <div className="p32-container flex flex-col items-center text-center">
         <h2
           data-reveal="words"
-          className="max-w-4xl text-balance font-display text-3xl font-medium uppercase leading-[1.12] tracking-tight sm:text-5xl md:text-6xl"
+          className="font-display text-4xl font-medium uppercase leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
         >
-          <span className="block">{splitWords(lineOne)}</span>
-          <span className="mt-2 block text-p32-gray-300">
-            {splitWords(lineTwo, lineOne.split(" ").filter(Boolean).length)}
-          </span>
+          {splitWords(team.title)}
         </h2>
+        <p
+          data-reveal="up"
+          className="mt-5 max-w-2xl text-balance text-xl leading-snug text-p32-gray-300 md:mt-6 md:text-2xl"
+        >
+          {team.headline}
+        </p>
       </div>
 
       <div className="p32-container mt-8 md:mt-12">
@@ -63,10 +67,31 @@ export function Team() {
         >
           <p>{team.bodyOne}</p>
           <p>{team.bodyTwo}</p>
+          <p>{personnel.supportOne}</p>
+          <p>{personnel.supportTwo}</p>
         </div>
       </div>
 
       <Personnel />
+
+      <div className="p32-container mt-20 flex flex-col items-center text-center md:mt-28">
+        <p
+          data-reveal="up"
+          className="max-w-3xl text-balance font-display text-2xl font-medium uppercase leading-[1.15] tracking-tight sm:text-4xl"
+        >
+          <span className="block text-balance">{team.closing[0]}</span>
+          <span className="block text-balance text-p32-gray-300">{team.closing[1]}</span>
+        </p>
+        <a
+          href="#contact"
+          data-reveal="up"
+          style={{ "--reveal-index": 1 } as CSSProperties}
+          className="team-cta p32-press mt-8 inline-flex items-center gap-4 py-3 font-mono text-xs uppercase tracking-[0.14em] text-p32-signal md:mt-10 md:text-sm"
+        >
+          {team.cta}
+          <span aria-hidden="true" className="team-cta-rule" />
+        </a>
+      </div>
     </section>
   );
 }

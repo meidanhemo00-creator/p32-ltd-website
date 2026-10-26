@@ -1,14 +1,11 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { personnel, type Person } from "@/lib/content";
 import { assetPath } from "@/lib/basePath";
 
-// Organizational register, read top to bottom: the Advisory Board band, then
-// a separate Cyber Leadership & Strategic Advisory band. Both tiers use the
-// same portrait size and type so the second tier never reads as lesser --
-// the organizational distinction is carried by the band itself (its own
-// index, title, member count and rule), not by shrinking anyone.
+// The whole team as one register: a single numbered grid, no group bands
+// (the client asked for one list, October 2026). Everyone shares the same
+// portrait size and type.
 //
 // Portraits: every file in /media/team/portraits was normalized once, offline,
 // to the same square crop, head scale, grayscale tone curve, and (for the
@@ -56,95 +53,12 @@ function PersonEntry({ person, index }: { person: Person; index: number }) {
   );
 }
 
-function GroupHeader({ index, title, count, id }: { index: number; title: string; count: number; id: string }) {
-  return (
-    <div className="flex items-baseline justify-between gap-4 border-t border-p32-gray-800 pt-4">
-      <h3 id={id} className="flex items-baseline gap-3 font-mono text-xs uppercase tracking-[0.16em] text-p32-white sm:text-sm">
-        <span className="text-p32-signal">{String(index + 1).padStart(2, "0")}</span>
-        <span>{title}</span>
-      </h3>
-      <span className="shrink-0 font-mono text-[11px] uppercase tracking-[0.14em] text-p32-gray-500">
-        {count} {count === 1 ? "person" : "people"}
-      </span>
-    </div>
-  );
-}
-
 export function Personnel() {
-  const [board, cyber, security] = personnel.groups;
-  const [titleLead, titleTail] = personnel.title.split(/\s(?=&)/);
   return (
-    <div className="p32-container mt-16 md:mt-24">
-      <div className="grid gap-6 md:grid-cols-12 md:gap-10">
-        <h2
-          data-reveal="up"
-          className="font-mono text-sm uppercase leading-relaxed tracking-[0.18em] text-p32-signal md:col-span-5 md:text-base"
-        >
-          {/* Broken deliberately at the ampersand so "&" never hangs alone. */}
-          <span className="block">{titleLead}</span>
-          <span className="block">{titleTail}</span>
-        </h2>
-        <div
-          data-reveal="up"
-          style={{ "--reveal-index": 1 } as CSSProperties}
-          className="max-w-[38rem] space-y-4 text-pretty text-lg leading-relaxed text-p32-gray-300 md:col-span-7 md:text-xl"
-        >
-          <p className="text-p32-white">{personnel.supportOne}</p>
-          <p>{personnel.supportTwo}</p>
-        </div>
-      </div>
-
-      <section aria-labelledby={`${board.id}-title`} className="mt-12 md:mt-16">
-        <GroupHeader index={0} title={board.title} count={board.people.length} id={`${board.id}-title`} />
-        <ul className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-y-10 sm:gap-x-6 lg:grid-cols-5 md:mt-8">
-          {board.people.map((person, i) => (
-            <PersonEntry key={person.name} person={person} index={i} />
-          ))}
-        </ul>
-      </section>
-
-      <section aria-labelledby={`${cyber.id}-title`} className="mt-14 md:mt-20">
-        <GroupHeader index={1} title={cyber.title} count={cyber.people.length} id={`${cyber.id}-title`} />
-        <div className="mt-6 grid grid-cols-1 gap-y-8 sm:grid-cols-3 sm:gap-y-10 sm:gap-x-6 lg:grid-cols-5 md:mt-8">
-          <ul className="grid grid-cols-1 gap-y-6 sm:col-span-2 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10">
-            {cyber.people.map((person, i) => (
-              <PersonEntry key={person.name} person={person} index={i} />
-            ))}
-          </ul>
-          <div
-            data-reveal="up"
-            style={{ "--reveal-index": 2 } as CSSProperties}
-            className="flex flex-col justify-end border-l border-p32-gray-800 pl-5 sm:col-span-1 lg:col-span-2 lg:col-start-4 lg:pl-8"
-          >
-            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-p32-gray-500">Capability</p>
-            <Link
-              href="/cyber-intelligence"
-              className="p32-press group mt-3 inline-flex flex-col text-xl font-medium leading-snug tracking-tight text-p32-white transition-colors hover:text-p32-signal md:text-2xl"
-            >
-              <span>Cyber Intelligence &amp; Exposure</span>
-              <span className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-p32-signal">
-                Explore capability
-              </span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section aria-labelledby={`${security.id}-title`} className="mt-14 md:mt-20">
-        <GroupHeader index={2} title={security.title} count={security.people.length} id={`${security.id}-title`} />
-        <div className="mt-6 grid gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-5 md:mt-8">
-          <ul className="grid gap-y-6">
-            {security.people.map((person, i) => <PersonEntry key={person.name} person={person} index={i} />)}
-          </ul>
-          <div data-reveal="up" className="flex flex-col justify-end border-l border-p32-gray-800 pl-5 sm:col-span-2 lg:col-start-4 lg:pl-8">
-            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-p32-gray-500">Capability</p>
-            <a href="#physical-protection" className="p32-press mt-3 inline-flex flex-col text-xl font-medium leading-snug tracking-tight text-p32-white transition-colors hover:text-p32-signal md:text-2xl">
-              <span>Layered Physical Protection</span>
-              <span className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-p32-signal">Explore capability</span>
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
+    <ul className="p32-container mt-14 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 md:mt-20 lg:grid-cols-4">
+      {personnel.people.map((person, i) => (
+        <PersonEntry key={person.name} person={person} index={i} />
+      ))}
+    </ul>
   );
 }

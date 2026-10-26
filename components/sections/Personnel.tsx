@@ -3,7 +3,7 @@ import Image from "next/image";
 import { personnel, type Person } from "@/lib/content";
 import { assetPath } from "@/lib/basePath";
 
-// The whole team as one register: a single numbered grid, no group bands
+// The whole team as one register: a single unnumbered grid, no group bands
 // (the client asked for one list, October 2026). Everyone shares the same
 // portrait size and type.
 //
@@ -37,10 +37,7 @@ function PersonEntry({ person, index }: { person: Person; index: number }) {
           )}
         </div>
         <figcaption className="sm:mt-4">
-          <span aria-hidden="true" className="flex items-center gap-3">
-            <span className="font-mono text-[11px] tracking-[0.12em] text-p32-gray-500 transition-colors duration-300 group-hover:text-p32-signal group-focus-visible:text-p32-signal">
-              {String(index + 1).padStart(2, "0")}
-            </span>
+          <span aria-hidden="true" className="flex items-center">
             <span className="personnel-rule h-px bg-p32-signal-deep" />
           </span>
           <span className="mt-3 block text-lg font-medium leading-tight tracking-tight text-p32-white sm:text-xl">

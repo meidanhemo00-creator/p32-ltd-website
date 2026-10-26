@@ -212,16 +212,6 @@ button {
   );
 }
 
-@keyframes p32-exposure-scan {
-  0%,
-  100% {
-    top: 6%;
-  }
-  50% {
-    top: 88%;
-  }
-}
-
 /* Vision's ambient orbit background -- continuous, not scroll-linked. */
 @keyframes p32-orbit-spin {
   to {
@@ -329,23 +319,6 @@ button {
 }
 .word-reveal {
   display: inline-block;
-}
-
-/* Subtle, continuous "alive" detail for small accent labels (section
-   eyebrows, index numbers) -- an ambient opacity breathe, not tied to
-   scroll or paint-once. Kept slow and low-contrast so it reads as quiet
-   life, not a distraction. */
-@keyframes p32-label-glow {
-  0%,
-  100% {
-    opacity: 0.65;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-.label-glow {
-  animation: p32-label-glow 4s ease-in-out infinite;
 }
 
 /* Reduced motion: collapse everything to instant, final-state rendering.
@@ -503,31 +476,6 @@ html.js-reveal [data-reveal="words"][data-in-view] .word-reveal {
 }
 
 /*
-  Playbook selection cue (components/sections/Playbook.tsx): the dot pulses
-  slowly to draw the eye to the selectors; under reduced motion the sitewide
-  rule stops it on its settled frame.
-*/
-@keyframes p32-cue-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(157, 210, 226, 0.55);
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 0 8px rgba(157, 210, 226, 0);
-  }
-}
-.playbook-cue-dot {
-  display: inline-block;
-  vertical-align: middle;
-  margin: -2px 0.75rem 0 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 9999px;
-  background: var(--p32-signal);
-  animation: p32-cue-pulse 2.2s var(--ease-out) infinite;
-}
-
-/*
   Entry gate (components/IntroGate.tsx). Only displayed under html.p32-gated,
   which the inline script in app/layout.tsx sets before paint, so no-JS
   visitors never meet it. While gated the page cannot scroll and its CSS
@@ -670,3 +618,92 @@ html.p32-gated body > :not(.intro-gate) * { animation-play-state: paused !import
 @media (hover: hover) and (pointer: fine) {
   .team-cta:hover .team-cta-rule { width: 3.5rem; }
 }
+
+/*
+  The Gap (components/sections/Gap.tsx). Each row's top hairline is two
+  segments. Settled state (no JS, reduced motion, or once revealed) is one
+  closed line; before reveal the halves are drawn back, leaving a literal gap
+  in the middle, and they meet once as the row enters the viewport.
+*/
+.gap-rule-left,
+.gap-rule-right {
+  display: block;
+  height: 1px;
+  width: 50%;
+  background: var(--p32-gray-700);
+}
+.gap-rule-right { margin-left: auto; }
+.gap-row:hover .gap-rule-left,
+.gap-row:hover .gap-rule-right { background: var(--p32-gray-500); }
+
+html.js-reveal [data-reveal="gap"]:not([data-in-view]) .gap-rule-left,
+html.js-reveal [data-reveal="gap"]:not([data-in-view]) .gap-rule-right {
+  width: 34%;
+}
+html.js-reveal [data-reveal="gap"][data-in-view] {
+  transition: opacity 700ms var(--ease-out);
+}
+html.js-reveal [data-reveal="gap"][data-in-view] .gap-rule-left,
+html.js-reveal [data-reveal="gap"][data-in-view] .gap-rule-right {
+  transition:
+    width 1400ms var(--ease-in-out) calc(250ms + 120ms * var(--reveal-index, 0)),
+    background-color 300ms ease;
+}
+
+/*
+  The Playbook (components/sections/Playbook.tsx). Photos crossfade with a
+  slow settle; the active step's top rule draws in signal blue; its panel
+  opens by animating grid rows 0fr -> 1fr (no measured heights).
+*/
+.playbook-photo {
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 700ms var(--ease-out),
+    transform 1400ms var(--ease-out);
+}
+.playbook-photo[data-active] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.playbook-step-rule {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 600ms var(--ease-out);
+}
+.playbook-step[data-active] .playbook-step-rule { transform: scaleX(1); }
+
+.playbook-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 500ms var(--ease-out);
+}
+.playbook-step[data-active] .playbook-panel { grid-template-rows: 1fr; }
+.playbook-panel > div { min-height: 0; }
+.playbook-panel > div > div {
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.playbook-step[data-active] .playbook-panel > div > div {
+  opacity: 1;
+  transition: opacity 500ms var(--ease-out) 150ms;
+}
+
+/* Plus that turns to a minus on the open step. */
+.playbook-toggle::before,
+.playbook-toggle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+}
+.playbook-toggle::after {
+  transform: rotate(90deg);
+  transition: transform 300ms var(--ease-out);
+}
+.playbook-step[data-active] .playbook-toggle { color: var(--p32-signal); }
+.playbook-step[data-active] .playbook-toggle::after { transform: rotate(0deg); }

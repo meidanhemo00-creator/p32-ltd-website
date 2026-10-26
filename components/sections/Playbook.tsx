@@ -1,15 +1,19 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import { useId, useRef, useState } from "react";
+import { useId, useState } from "react";
 import { playbook } from "@/lib/content";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { NasaPhoto } from "@/components/media/NasaPhoto";
 import { splitWords } from "@/lib/splitWords";
 
-// One large cinematic image stage, not four boxes: a slim step-name strip
-// selects which step is active, and one shared stage below crossfades its
-// image and text -- the section's height never changes between steps.
+// Editorial split: the four steps as a large typographic list on the left,
+// the active step's photograph on the right (inside the open step on
+// phones), shown clean -- no text laid
+// over it, only a small step counter. Each title is said once; the active
+// step opens in place (statement, then detail) and the others stay one line
+// tall, so the list reads as a table of contents. Click/Enter to switch, not
+// hover: opening a row moves the rows below it, which must not happen under
+// a passing cursor.
 const STEP_PHOTOS = [
   {
     // Real, unstaged workshop photograph (NASA public domain, see
@@ -38,133 +42,121 @@ const STEP_PHOTOS = [
 
 export function Playbook() {
   const [active, setActive] = useState(0);
-  const hoverCapable = useMediaQuery("(hover: hover) and (pointer: fine)");
   const baseId = useId();
-  const navRefs = useRef<(HTMLButtonElement | null)[]>([]);
-
-  const focusStep = (i: number) => {
-    setActive(i);
-    navRefs.current[i]?.focus();
-  };
-
-  const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, i: number) => {
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-      e.preventDefault();
-      focusStep((i + 1) % playbook.length);
-    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-      e.preventDefault();
-      focusStep((i - 1 + playbook.length) % playbook.length);
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      focusStep(0);
-    } else if (e.key === "End") {
-      e.preventDefault();
-      focusStep(playbook.length - 1);
-    }
-  };
+  const total = String(playbook.length).padStart(2, "0");
 
   return (
-    <section className="p32-section relative bg-p32-black text-p32-white" id="playbook">
+    <section className="p32-section bg-p32-black text-p32-white" id="playbook">
       <div className="p32-container">
-        <h2
-          data-reveal="words"
-          className="text-center text-balance font-mono text-2xl font-medium uppercase tracking-tight sm:text-4xl"
-        >
-          {splitWords("The Playbook")}
-        </h2>
-
-        {/* Explicit prompt: without it, visitors on touch screens had no cue
-            that the four steps are selectable. */}
-        <p
-          data-reveal="up"
-          className="mx-auto mt-6 max-w-[22rem] text-center text-balance font-mono text-xs uppercase leading-relaxed tracking-[0.16em] text-p32-signal sm:max-w-none md:mt-10 md:text-sm"
-        >
-          <span aria-hidden="true" className="playbook-cue-dot" />
-          Select a step to explore more capabilities
-        </p>
-
-        {/* Four equal cells -- 2x2 on phones, 1x4 from sm -- divided by
-            hairlines (the 1px gap over a gray background), each centered with
-            its index above its title, so every step carries the same weight
-            and the grid reads symmetrically at every width. */}
-        <div
-          role="tablist"
-          aria-label="Playbook steps"
-          className="mt-5 grid grid-cols-2 gap-px border border-p32-gray-800 bg-p32-gray-800 sm:grid-cols-4 md:mt-6"
-        >
-          {playbook.map((step, i) => {
-            const isActive = active === i;
-            return (
-              <button
-                key={step.index}
-                ref={(el) => {
-                  navRefs.current[i] = el;
-                }}
-                type="button"
-                role="tab"
-                id={`${baseId}-tab-${i}`}
-                aria-selected={isActive}
-                aria-controls={`${baseId}-stage`}
-                tabIndex={isActive ? 0 : -1}
-                onMouseEnter={() => hoverCapable && setActive(i)}
-                onClick={() => setActive(i)}
-                onKeyDown={(e) => onKeyDown(e, i)}
-                data-reveal="up"
-                style={{ "--reveal-index": i } as CSSProperties}
-                className={`p32-press relative flex min-h-[5.5rem] flex-col items-center justify-center gap-1.5 bg-p32-black px-3 py-4 text-center text-sm font-medium leading-snug tracking-tight transition-colors md:min-h-[6rem] md:text-base ${
-                  isActive ? "text-p32-white" : "text-p32-gray-500 hover:bg-p32-panel hover:text-p32-gray-300"
-                }`}
-              >
-                <span
-                  aria-hidden="true"
-                  className={`absolute inset-x-0 top-0 h-0.5 origin-center bg-p32-signal transition-transform duration-300 ${
-                    isActive ? "scale-x-100" : "scale-x-0"
-                  }`}
-                />
-                <span className="label-glow font-mono text-xs text-p32-signal">{step.index}</span>
-                <span className="text-balance">{step.title}</span>
-              </button>
-            );
-          })}
+        <div>
+          <h2
+            data-reveal="words"
+            className="font-display text-4xl font-medium uppercase leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
+          >
+            {splitWords("The Playbook")}
+          </h2>
         </div>
 
-        <div
-          id={`${baseId}-stage`}
-          role="tabpanel"
-          aria-labelledby={`${baseId}-tab-${active}`}
-          data-reveal="up"
-          className="relative mt-4 min-h-[58vh] overflow-hidden md:min-h-[68vh]"
-        >
-          {playbook.map((step, i) => {
-            const isActive = active === i;
-            const photo = STEP_PHOTOS[i];
-            return (
+        <div className="mt-10 grid gap-8 md:mt-16 lg:grid-cols-12 lg:gap-10">
+          <div
+            data-reveal="image"
+            className="relative hidden overflow-hidden bg-p32-panel lg:order-2 lg:col-span-7 lg:block lg:min-h-[34.5rem]"
+          >
+            {STEP_PHOTOS.map((photo, i) => (
               <div
-                key={step.index}
-                aria-hidden={!isActive}
-                className="absolute inset-0 transition-opacity duration-300 ease-out"
-                style={{ opacity: isActive ? 1 : 0, pointerEvents: isActive ? "auto" : "none" }}
+                key={photo.src}
+                aria-hidden={active !== i}
+                className="playbook-photo absolute inset-0"
+                data-active={active === i || undefined}
               >
                 <NasaPhoto
                   src={photo.src}
                   alt={photo.alt}
                   objectPosition={photo.objectPosition}
-                  gradient="180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.6) 100%"
+                  sizes="(min-width: 1024px) 58vw, 100vw"
+                  gradient="180deg, rgba(0,0,0,0) 62%, rgba(0,0,0,0.5) 100%"
+                  contrast={1.08}
                 />
-                <div className="p32-container relative flex h-full flex-col items-center justify-center gap-5 text-center">
-                  <h3 className="text-balance font-display text-2xl font-medium tracking-tight md:text-4xl">
-                    {splitWords(step.title)}
-                  </h3>
-                  <p className="max-w-2xl text-balance text-lg font-medium leading-snug text-p32-gray-100 md:text-2xl">
-                    {splitWords(step.statement)}
-                  </p>
-                  <p className="max-w-xl text-pretty text-sm leading-relaxed text-p32-gray-400 md:text-base">
-                    {step.expanded}
-                  </p>
-                </div>
               </div>
-            );
-          })}
+            ))}
+            <p
+              aria-hidden="true"
+              className="absolute bottom-4 left-4 font-mono text-xs tracking-[0.16em] text-p32-white md:bottom-6 md:left-6"
+            >
+              <span className="text-p32-signal">{playbook[active].index}</span>
+              <span className="text-p32-gray-300"> / {total}</span>
+            </p>
+          </div>
+
+          {/* Stretches to the photo's height, closing on its own bottom rule so
+              both columns end on one line whichever step is open. */}
+          <ol className="border-b border-p32-gray-800 lg:order-1 lg:col-span-5">
+            {playbook.map((step, i) => {
+              const isActive = active === i;
+              const panelId = `${baseId}-panel-${i}`;
+              return (
+                <li
+                  key={step.index}
+                  data-reveal="up"
+                  style={{ "--reveal-index": i } as CSSProperties}
+                  className="playbook-step relative border-t border-p32-gray-800"
+                  data-active={isActive || undefined}
+                >
+                  <span aria-hidden="true" className="playbook-step-rule absolute inset-x-0 -top-px h-px bg-p32-signal" />
+                  <h3>
+                    <button
+                      type="button"
+                      aria-expanded={isActive}
+                      aria-controls={panelId}
+                      onClick={() => setActive(i)}
+                      className="group flex w-full items-baseline gap-5 py-5 text-left md:py-6"
+                    >
+                      <span
+                        className={`font-mono text-xs tracking-[0.14em] transition-colors duration-300 md:text-sm ${
+                          isActive ? "text-p32-signal" : "text-p32-gray-500"
+                        }`}
+                      >
+                        {step.index}
+                      </span>
+                      <span
+                        className={`flex-1 text-balance text-2xl font-medium leading-tight tracking-tight transition-colors duration-300 md:text-3xl ${
+                          isActive ? "text-p32-white" : "text-p32-gray-500 group-hover:text-p32-gray-300"
+                        }`}
+                      >
+                        {/* Keep "&" on the first line, never leading the second. */}
+                        {step.title.replace(" & ", "\u00a0& ")}
+                      </span>
+                      <span aria-hidden="true" className="playbook-toggle relative mt-2 h-3 w-3 shrink-0 text-p32-gray-500" />
+                    </button>
+                  </h3>
+                  <div id={panelId} className="playbook-panel" inert={!isActive}>
+                    <div className="overflow-hidden">
+                      <div className="pb-7 pl-[calc(1.25rem+2ch)] md:pb-8">
+                        <p className="text-pretty text-lg leading-snug text-p32-white md:text-xl">{step.statement}</p>
+                        <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-p32-gray-300 md:text-base">
+                          {step.expanded}
+                        </p>
+                      </div>
+                      {/* Phones: the photo opens with its step, so a change
+                          is always on screen (the desktop stage is hidden). */}
+                      {/* The world maps carry a ragged polar edge at their
+                          full height; a slight zoom keeps it out of frame. */}
+                      <div className="relative mb-7 aspect-[4/3] overflow-hidden bg-p32-panel lg:hidden [&_img]:scale-[1.15]">
+                        <NasaPhoto
+                          src={STEP_PHOTOS[i].src}
+                          alt={STEP_PHOTOS[i].alt}
+                          objectPosition={STEP_PHOTOS[i].objectPosition}
+                          sizes="100vw"
+                          gradient="180deg, rgba(0,0,0,0) 70%, rgba(0,0,0,0.3) 100%"
+                          contrast={1.08}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </div>
     </section>

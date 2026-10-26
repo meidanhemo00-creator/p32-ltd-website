@@ -19,15 +19,15 @@ export const gap = {
   headline: "THREE PRESSURES DEFINE THE MODERN OPERATIONAL GAP.",
   points: [
     {
-      statement: "AN EVOLVING TECHNOLOGICAL LANDSCAPE.",
+      statement: "An evolving technological landscape.",
       context: "Requirements shift as fast as the technology does - yesterday's platform is rarely tomorrow's answer.",
     },
     {
-      statement: "FRICTION BETWEEN DISPARATE SYSTEMS.",
+      statement: "Friction between disparate systems.",
       context: "Independently built systems rarely speak the same language, and integrating them after the fact costs time no mission can spare.",
     },
     {
-      statement: "THE SECURITY RISK OF EXPOSING SENSITIVE NEEDS TO THE OPEN MARKET.",
+      statement: "The security risk of exposing sensitive needs to the open market.",
       context: "Describing a sensitive requirement to the open market can itself become the exposure - the search for a solution becoming the vulnerability.",
     },
   ],
@@ -44,7 +44,7 @@ export const playbook = [
     index: "01",
     title: "Mission Deconstruction",
     statement:
-      "We don't just look at the problem; we reverse-engineer it to its core components.",
+      "We don't just look at the problem; we reverse‑engineer it to its core components.",
     expanded:
       "We break massive, seemingly impossible operational challenges down into distinct, solvable blocks. It is about understanding the 'what' and the 'how' at a granular level so that no detail is left to chance.",
   },

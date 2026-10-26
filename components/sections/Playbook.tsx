@@ -45,8 +45,10 @@ export function Playbook() {
   const baseId = useId();
   const total = String(playbook.length).padStart(2, "0");
 
+  // White, continuing the Approach section above it with no break; its
+  // bottom padding already separates them, so this one starts close.
   return (
-    <section className="p32-section bg-p32-black text-p32-white" id="playbook">
+    <section className="p32-section tx-grain-light bg-p32-white text-p32-black" id="playbook" style={{ paddingTop: "1rem" }}>
       <div className="p32-container">
         <div>
           <h2
@@ -60,7 +62,7 @@ export function Playbook() {
         <div className="mt-10 grid gap-8 md:mt-16 lg:grid-cols-12 lg:gap-10">
           <div
             data-reveal="image"
-            className="relative hidden overflow-hidden bg-p32-panel lg:order-2 lg:col-span-7 lg:block lg:min-h-[34.5rem]"
+            className="relative hidden overflow-hidden bg-p32-gray-100 lg:order-2 lg:col-span-7 lg:block lg:min-h-[34.5rem]"
           >
             {STEP_PHOTOS.map((photo, i) => (
               <div
@@ -90,7 +92,7 @@ export function Playbook() {
 
           {/* Stretches to the photo's height, closing on its own bottom rule so
               both columns end on one line whichever step is open. */}
-          <ol className="border-b border-p32-gray-800 lg:order-1 lg:col-span-5">
+          <ol className="border-b border-p32-gray-300 lg:order-1 lg:col-span-5">
             {playbook.map((step, i) => {
               const isActive = active === i;
               const panelId = `${baseId}-panel-${i}`;
@@ -99,10 +101,10 @@ export function Playbook() {
                   key={step.index}
                   data-reveal="up"
                   style={{ "--reveal-index": i } as CSSProperties}
-                  className="playbook-step relative border-t border-p32-gray-800"
+                  className="playbook-step relative border-t border-p32-gray-300"
                   data-active={isActive || undefined}
                 >
-                  <span aria-hidden="true" className="playbook-step-rule absolute inset-x-0 -top-px h-px bg-p32-signal" />
+                  <span aria-hidden="true" className="playbook-step-rule absolute inset-x-0 -top-px h-px bg-p32-signal-deep" />
                   <h3>
                     <button
                       type="button"
@@ -113,14 +115,14 @@ export function Playbook() {
                     >
                       <span
                         className={`font-mono text-xs tracking-[0.14em] transition-colors duration-300 md:text-sm ${
-                          isActive ? "text-p32-signal" : "text-p32-gray-500"
+                          isActive ? "text-p32-signal-deep" : "text-p32-gray-500"
                         }`}
                       >
                         {step.index}
                       </span>
                       <span
                         className={`flex-1 text-balance text-2xl font-medium leading-tight tracking-tight transition-colors duration-300 md:text-3xl ${
-                          isActive ? "text-p32-white" : "text-p32-gray-500 group-hover:text-p32-gray-300"
+                          isActive ? "text-p32-black" : "text-p32-gray-500 group-hover:text-p32-gray-700"
                         }`}
                       >
                         {/* Keep "&" on the first line, never leading the second. */}
@@ -132,8 +134,8 @@ export function Playbook() {
                   <div id={panelId} className="playbook-panel" inert={!isActive}>
                     <div className="overflow-hidden">
                       <div className="pb-7 pl-[calc(1.25rem+2ch)] md:pb-8">
-                        <p className="text-pretty text-lg leading-snug text-p32-white md:text-xl">{step.statement}</p>
-                        <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-p32-gray-300 md:text-base">
+                        <p className="text-pretty text-lg leading-snug text-p32-black md:text-xl">{step.statement}</p>
+                        <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-p32-gray-600 md:text-base">
                           {step.expanded}
                         </p>
                       </div>
@@ -141,7 +143,7 @@ export function Playbook() {
                           is always on screen (the desktop stage is hidden). */}
                       {/* The world maps carry a ragged polar edge at their
                           full height; a slight zoom keeps it out of frame. */}
-                      <div className="relative mb-7 aspect-[4/3] overflow-hidden bg-p32-panel lg:hidden [&_img]:scale-[1.15]">
+                      <div className="relative mb-7 aspect-[4/3] overflow-hidden bg-p32-gray-100 lg:hidden [&_img]:scale-[1.15]">
                         <NasaPhoto
                           src={STEP_PHOTOS[i].src}
                           alt={STEP_PHOTOS[i].alt}

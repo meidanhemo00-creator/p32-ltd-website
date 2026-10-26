@@ -705,5 +705,5 @@ html.js-reveal [data-reveal="gap"][data-in-view] .gap-rule-right {
   transform: rotate(90deg);
   transition: transform 300ms var(--ease-out);
 }
-.playbook-step[data-active] .playbook-toggle { color: var(--p32-signal); }
+.playbook-step[data-active] .playbook-toggle { color: var(--p32-signal-deep); }
 .playbook-step[data-active] .playbook-toggle::after { transform: rotate(0deg); }

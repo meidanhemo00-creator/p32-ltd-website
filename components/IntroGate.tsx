@@ -45,11 +45,13 @@ function line(chars: number) {
 function buildField(): Row[] {
   const charW = window.innerWidth < 640 ? 6.6 : 7.2;
   const lineH = window.innerWidth < 640 ? 18 : 20;
-  const cols = Math.ceil((window.innerWidth / charW) * 1.5);
-  const count = Math.ceil(window.innerHeight / lineH) + 1;
+  // Sized to the whole screen, not the window, so resizing never uncovers
+  // an empty edge.
+  const cols = Math.ceil((Math.max(window.innerWidth, screen.width) / charW) * 1.5);
+  const count = Math.ceil(Math.max(window.innerHeight, screen.height) / lineH) + 1;
   // Keep the target inside the middle of the screen, horizontally within
   // what is visible at the row's starting drift offset.
-  const targetRow = Math.floor(count * (0.3 + Math.random() * 0.4));
+  const targetRow = Math.floor((window.innerHeight / lineH) * (0.3 + Math.random() * 0.4));
   const visible = Math.floor(window.innerWidth / charW);
   const targetCol = Math.floor(visible * (0.12 + Math.random() * 0.5));
   return Array.from({ length: count }, (_, i) => {

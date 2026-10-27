@@ -22,6 +22,8 @@
 
   --p32-signal: #9dd2e2;
   --p32-signal-deep: #288eae;
+  /* Lighter tint of the signal blue, for the entry gate's glint only. */
+  --p32-signal-bright: #d4f1fa;
 
   --section-pad-y: 7rem;
   --section-pad-y-sm: 2.75rem;
@@ -68,23 +70,6 @@ html {
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
-
-.physical-service summary::-webkit-details-marker { display: none; }
-.physical-service summary::marker { content: ""; }
-.physical-service summary:hover h3,
-.physical-service[open] summary h3 { color: var(--p32-signal-deep); }
-.physical-toggle::before,
-.physical-toggle::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  width: 14px;
-  height: 1px;
-  background: currentColor;
-}
-.physical-toggle::after { transform: rotate(90deg); transition: transform 180ms ease; }
-.physical-service[open] .physical-toggle::after { transform: rotate(0deg); }
 
 body {
   background: var(--p32-white);
@@ -532,21 +517,22 @@ html.p32-gated body > :not(.intro-gate) * { animation-play-state: paused !import
   animation-direction: alternate !important;
   animation-timing-function: ease-in-out;
 }
-.intro-gate:not([data-phase="idle"]) .intro-row:not([data-target]) { opacity: 0.12; }
+.intro-gate:not([data-phase="idle"]) .intro-row:not(:has([data-hit])) { opacity: 0.12; }
 
 .intro-target {
   position: relative;
   margin: -6px -4px;
   padding: 6px 4px;
   font: inherit;
-  color: inherit;
   cursor: pointer;
-  animation: intro-glint 3.2s ease-in-out 1.2s infinite;
+  /* Always readable as the brand blue, brightening on each glint. */
+  color: rgba(157, 210, 226, 0.6);
+  animation: intro-glint 3.2s ease-in-out infinite;
 }
 .intro-target:hover,
 .intro-target:focus-visible,
-.intro-gate:not([data-phase="idle"]) .intro-target {
-  color: var(--p32-signal);
+.intro-target[data-hit] {
+  color: var(--p32-signal-bright);
   animation: none;
 }
 .intro-target:focus-visible {
@@ -593,8 +579,8 @@ html.p32-gated body > :not(.intro-gate) * { animation-play-state: paused !import
 @keyframes intro-drift { from { transform: translateX(0); } to { transform: translateX(-33%); } }
 @keyframes intro-sway { from { transform: translateX(0); } to { transform: translateX(-4%); } }
 @keyframes intro-glint {
-  0%, 62%, 100% { color: inherit; }
-  72%, 84% { color: var(--p32-signal); }
+  0%, 62%, 100% { color: rgba(157, 210, 226, 0.6); }
+  72%, 84% { color: var(--p32-signal-bright); }
 }
 @keyframes intro-glint-dot {
   0%, 62%, 100% { opacity: 0.35; }
@@ -603,7 +589,7 @@ html.p32-gated body > :not(.intro-gate) * { animation-play-state: paused !import
 
 /* Reduced motion: no drift or glint, so the target simply reads brighter. */
 @media (prefers-reduced-motion: reduce) {
-  .intro-target { color: var(--p32-gray-300); }
+  .intro-target { color: var(--p32-signal); }
 }
 
 /* Team closing link into Contact: the trailing rule extends on hover/focus. */

@@ -36,7 +36,13 @@ export const gap = {
 export const uniqueness = {
   headline: "As an objective & Trusted Executor, P32 operates without conflict of interest.",
   body: "We manage the entire lifecycle: from scouting and development - to integration - to ensure an unfair advantage in the field.",
-  lifecycle: ["Scouting", "Development", "Integration"],
+  // Client's four-stage sequence (October 2026).
+  lifecycle: [
+    "Operational Challenge",
+    "Technology Scouting",
+    "Architecture & Orchestration of a Holistic Solution",
+    "Success & Impact",
+  ],
 };
 
 export const playbook = [
@@ -88,6 +94,8 @@ export const team = {
     "Decades of proven technological innovation.",
     "From the units that faced these challenges.",
   ],
+  // Client's motto (October 2026), set after the team portraits.
+  motto: { mark: "SERVE", rest: "= Serving Those Who Serve" },
   // Closing line chosen by the client (October 2026), leading into Contact.
   closing: ["Some of our work can't be shown here.", "Let's talk about yours."],
   cta: "Get in touch",
@@ -95,10 +103,10 @@ export const team = {
 
 export const contact = {
   address: "HaNechoshet 3, Tel Aviv",
-  email: "info@p32.ltd",
+  email: "contact@p32.ltd",
   phone: "+972 3 653 0997",
   phoneHref: "tel:+97236530997",
-  emailHref: "mailto:info@p32.ltd",
+  emailHref: "mailto:contact@p32.ltd",
 };
 
 export const hero = {
@@ -136,18 +144,3 @@ export const personnel = {
   ] satisfies Person[],
 };
 
-export const physicalProtection = {
-  label: "Layered Physical Protection",
-  headline: "From security survey to fully operational protection.",
-  intro: "P32 designs, builds, and manages physical security programs around the people, places, and operations that matter. We begin with a comprehensive security survey and risk assessment, then translate the findings into a tailored operational framework - bringing together qualified personnel, security technologies, clear procedures, and ongoing oversight.",
-  closing: "From executive and family protection to residential and corporate security, secure transportation, and emergency readiness, every layer works together under one coordinated plan.",
-  stages: ["Assess", "Design", "Deploy", "Manage"],
-  services: [
-    { title: "Security Surveys & Risk Assessments", detail: "On-site assessments, vulnerability mapping, and prioritized recommendations. We evaluate existing measures, identify gaps, and define the protection your environment requires." },
-    { title: "Security Program Design & Implementation", detail: "Security architecture, staffing plans, routine and emergency SOPs, and coordination of security systems. We turn assessment findings into an operational security program." },
-    { title: "Executive & Family Protection", detail: "Discreet close protection tailored to daily routines and individual risk, supported by qualified personnel and clear contingency procedures." },
-    { title: "Residential & Corporate Security", detail: "Facility protection, access control, surveillance, and mail and package screening, coordinated across homes, offices, and additional assets." },
-    { title: "Secure Transportation & Travel Planning", detail: "Protective driving, route planning, vetted local security providers, and contingency arrangements for daily movements and international travel." },
-    { title: "Operational Management & Readiness", detail: "Personnel vetting, training, supervision, emergency response planning, and periodic audits. Continuous review keeps the program aligned with changing risks and operational needs." },
-  ],
-};

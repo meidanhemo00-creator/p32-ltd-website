@@ -32,7 +32,12 @@ export function Team() {
           data-reveal="up"
           className="mt-5 max-w-2xl text-balance text-xl leading-snug text-p32-gray-300 md:mt-6 md:text-2xl"
         >
-          {team.headline}
+          {/* Each sentence on its own line. */}
+          {team.headline.split(/(?<=\.)\s+/).map((sentence) => (
+            <span key={sentence} className="block">
+              {sentence}
+            </span>
+          ))}
         </p>
       </div>
 
@@ -75,7 +80,22 @@ export function Team() {
 
       <Personnel />
 
-      <div className="p32-container mt-20 flex flex-col items-center text-center md:mt-28">
+      {/* The motto, set between hairlines as its own beat before the close. */}
+      <div className="p32-container mt-20 md:mt-28">
+        <p
+          data-reveal="up"
+          className="border-y border-p32-gray-800 py-10 text-center font-display text-2xl font-medium tracking-tight sm:text-4xl md:py-14"
+          style={{ textWrap: "balance" }}
+        >
+          <span className="text-p32-white">
+            {team.motto.mark}
+            <sup className="ml-[0.04em] text-[0.55em] text-p32-signal">2</sup>
+          </span>{" "}
+          <span className="text-p32-gray-500">{team.motto.rest}</span>
+        </p>
+      </div>
+
+      <div className="p32-container mt-16 flex flex-col items-center text-center md:mt-20">
         <p
           data-reveal="up"
           className="max-w-3xl text-balance font-display text-2xl font-medium uppercase leading-[1.15] tracking-tight sm:text-4xl"

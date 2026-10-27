@@ -16,42 +16,30 @@ function Headline() {
         className="word-reveal inline-flex items-center align-baseline"
         style={{ "--word-index": logoIndex } as CSSProperties}
       >
-        <P32Logo height={34} className="inline-block h-[0.62em] w-auto translate-y-[0.05em]" />
+        <P32Logo height={34} className="ml-[0.08em] inline-block h-[0.62em] w-auto -translate-y-[0.04em]" />
       </span>{" "}
       {splitWords(after, logoIndex + 1)}
     </h2>
   );
 }
 
-const NODE_X = [4, 300, 596];
-
-// One strong static systems visual: three lifecycle nodes on a single
-// resolved line -- no scroll-linked collapse animation, just the settled
-// end state (many disconnected systems is the copy's job, not the diagram's).
+// The lifecycle as one resolved line with a node per stage: horizontal from
+// sm up (labels centered under their nodes), vertical on phones, where four
+// columns would crush the long third label.
 function LifecycleTrace() {
-  const stages = uniqueness.lifecycle;
   return (
-    <div data-reveal="scale" className="mx-auto mt-10 flex max-w-2xl flex-col items-center md:mt-24">
-      <svg viewBox="-20 -10 640 50" className="w-full max-w-2xl overflow-visible" aria-hidden="true">
-        <line x1="4" y1="20" x2="596" y2="20" stroke="var(--p32-signal-deep)" strokeWidth="1.5" />
-        {NODE_X.map((x, i) => (
-          <circle
-            key={i}
-            cx={x}
-            cy="20"
-            r="4.5"
-            fill="var(--p32-black)"
-            stroke="var(--p32-signal-deep)"
-            strokeWidth="1.5"
-          />
-        ))}
-      </svg>
-      <div className="mt-4 flex w-full max-w-2xl justify-between font-mono text-sm text-p32-gray-600">
-        {stages.map((stage) => (
-          <span key={stage}>{stage}</span>
-        ))}
-      </div>
-    </div>
+    <ol data-reveal="scale" className="relative mx-auto mt-10 grid w-fit max-w-[17rem] gap-6 sm:w-full sm:max-w-4xl sm:grid-cols-4 sm:gap-6 md:mt-24">
+      <span aria-hidden="true" className="absolute top-2 bottom-2 left-[4px] w-[1.5px] bg-p32-signal-deep sm:top-[4px] sm:right-[12.5%] sm:bottom-auto sm:left-[12.5%] sm:h-[1.5px] sm:w-auto" />
+      {uniqueness.lifecycle.map((stage) => (
+        <li key={stage} className="relative flex items-start gap-4 text-left sm:flex-col sm:items-center sm:gap-4 sm:text-center">
+          <span aria-hidden="true" className="relative mt-1 h-[10px] w-[10px] shrink-0 rounded-full border-[1.5px] border-p32-signal-deep bg-p32-black sm:mt-0" />
+          <span className="text-balance font-mono text-sm leading-snug text-p32-gray-600">
+            {/* Keep "of a Holistic" together so "of a" never ends a line. */}
+            {stage.replace("of a Holistic", "of\u00a0a\u00a0Holistic")}
+          </span>
+        </li>
+      ))}
+    </ol>
   );
 }
 
@@ -62,9 +50,12 @@ export function Uniqueness() {
         <Headline />
         <p
           data-reveal="up"
-          className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-p32-gray-700 sm:text-lg md:mt-10 md:text-xl"
+          // Inline: the sitewide p { text-wrap: pretty } rule outranks the utility.
+          style={{ textWrap: "balance" }}
+          className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-p32-gray-700 sm:text-lg md:mt-10 md:text-xl"
         >
-          {uniqueness.body}
+          {/* Glue each " - " dash to the word before it, so no line starts on one. */}
+          {uniqueness.body.replaceAll(" - ", "\u00a0- ")}
         </p>
         <LifecycleTrace />
       </div>

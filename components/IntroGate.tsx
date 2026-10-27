@@ -16,9 +16,19 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 const STORAGE_KEY = "p32-entered";
 const TARGET = "PROJECT 32";
 const DECOYS = ["PROJECT 31", "PROJECT 23", "OBJECT 32", "PROJECT_32", "PROJECT 3"];
-const WORDS = ["route.ok", "verify", "hold", "hand.off", "assess", "design", "deploy", "manage", "sig/07", "node.12", "tx.lock", "relay", "audit", "scope", "clear"];
+// Approved by the client (October 2026): the field reads as P32's own
+// vocabulary, mixed with live coordinates and codes for texture.
+const KEYWORDS = [
+  "defense technology", "operational challenge", "technology scouting", "deep tech",
+  "mission deconstruction", "custom development", "systems integration", "orchestration",
+  "holistic solution", "defense architecture", "physical protection", "cyber intelligence",
+  "security survey", "risk assessment", "executive protection", "secure transportation",
+  "trusted executor", "no conflict of interest", "success & impact", "serving those who serve",
+  "tel aviv", "israel",
+];
 
-type Row = { before: string; after: string; target: boolean; drift: number; tone: number };
+// `target` is the index of the PROJECT 32 button on this row, or null.
+type Row = { before: string; after: string; target: number | null; drift: number; tone: number };
 
 function rand(n: number) {
   return Math.floor(Math.random() * n);
@@ -26,14 +36,13 @@ function rand(n: number) {
 
 function token() {
   const r = Math.random();
-  if (r < 0.3) return rand(0xffff).toString(16).padStart(4, "0");
-  if (r < 0.45) return `0x${rand(0xfff).toString(16).toUpperCase().padStart(3, "0")}`;
-  if (r < 0.55) return `${Math.random() < 0.5 ? "31" : "32"}.${String(rand(10000)).padStart(4, "0")} N`;
-  if (r < 0.62) return `34.${String(rand(10000)).padStart(4, "0")} E`;
-  if (r < 0.68) return "::";
-  if (r < 0.72) return DECOYS[rand(DECOYS.length)];
-  if (r < 0.78) return `stage[0${rand(5) + 1}]`;
-  return WORDS[rand(WORDS.length)];
+  if (r < 0.16) return rand(0xffff).toString(16).padStart(4, "0");
+  if (r < 0.26) return `0x${rand(0xfff).toString(16).toUpperCase().padStart(3, "0")}`;
+  if (r < 0.34) return `${Math.random() < 0.5 ? "31" : "32"}.${String(rand(10000)).padStart(4, "0")} N`;
+  if (r < 0.39) return `34.${String(rand(10000)).padStart(4, "0")} E`;
+  if (r < 0.43) return "::";
+  if (r < 0.47) return DECOYS[rand(DECOYS.length)];
+  return KEYWORDS[rand(KEYWORDS.length)];
 }
 
 function line(chars: number) {
@@ -49,16 +58,23 @@ function buildField(): Row[] {
   // an empty edge.
   const cols = Math.ceil((Math.max(window.innerWidth, screen.width) / charW) * 1.5);
   const count = Math.ceil(Math.max(window.innerHeight, screen.height) / lineH) + 1;
-  // Keep the target inside the middle of the screen, horizontally within
-  // what is visible at the row's starting drift offset.
-  const targetRow = Math.floor((window.innerHeight / lineH) * (0.3 + Math.random() * 0.4));
+  // Several targets, one per horizontal band of the visible screen (kept off
+  // the top and bottom edges), each at a random column within what is
+  // visible at the row's starting drift offset.
+  const targets = window.innerWidth < 640 ? 3 : 4;
+  const visibleRows = Math.floor(window.innerHeight / lineH);
   const visible = Math.floor(window.innerWidth / charW);
-  const targetCol = Math.floor(visible * (0.12 + Math.random() * 0.5));
+  const targetRows = Array.from({ length: targets }, (_, t) => {
+    const band = 0.7 / targets;
+    return Math.floor(visibleRows * (0.12 + band * t + Math.random() * band * 0.8));
+  });
   return Array.from({ length: count }, (_, i) => {
     const drift = (i % 2 ? 1 : -1) * (70 + rand(60));
-    if (i !== targetRow) return { before: line(cols), after: "", target: false, drift, tone: rand(3) };
-    // The target row only sways a little (see .intro-row[data-target]) so it stays in reach.
-    return { before: line(targetCol).slice(0, targetCol) + "  ", after: "  " + line(cols - targetCol), target: true, drift: 40, tone: 0 };
+    const t = targetRows.indexOf(i);
+    if (t === -1) return { before: line(cols), after: "", target: null, drift, tone: rand(3) };
+    // Target rows only sway a little (see .intro-row[data-target]) so they stay in reach.
+    const col = Math.floor(visible * (0.08 + Math.random() * 0.62));
+    return { before: line(col).slice(0, col) + "  ", after: "  " + line(cols - col), target: t, drift: 40, tone: 0 };
   });
 }
 
@@ -117,6 +133,8 @@ export function IntroGate() {
 
   function enter(event: React.MouseEvent<HTMLButtonElement>) {
     if (phase !== "idle") return;
+    // Mark the clicked target so its row stays lit while the rest fade.
+    event.currentTarget.dataset.hit = "";
     const rect = event.currentTarget.getBoundingClientRect();
     const y = rect.top + rect.height / 2;
     setLineY(y);
@@ -152,13 +170,20 @@ export function IntroGate() {
               key={i}
               className="intro-row"
               data-tone={row.tone}
-              data-target={row.target || undefined}
+              data-target={row.target !== null || undefined}
               style={{ animationDuration: `${Math.abs(row.drift)}s`, animationDirection: row.drift > 0 ? "normal" : "reverse" }}
             >
               <span aria-hidden="true"><Live text={row.before} /></span>
-              {row.target && (
+              {row.target !== null && (
                 <>
-                  <button type="button" className="intro-target" onClick={enter} aria-label="Enter the P32 site">
+                  <button
+                    type="button"
+                    className="intro-target"
+                    onClick={enter}
+                    aria-label="Enter the P32 site"
+                    // Stagger the glints so the targets light up in turn.
+                    style={{ animationDelay: `${1.2 + row.target * 0.8}s` }}
+                  >
                     {TARGET}
                   </button>
                   <span aria-hidden="true"><Live text={row.after} /></span>

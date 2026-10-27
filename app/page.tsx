@@ -5,7 +5,6 @@ import { Gap } from "@/components/sections/Gap";
 import { Uniqueness } from "@/components/sections/Uniqueness";
 import { Playbook } from "@/components/sections/Playbook";
 import { Execution } from "@/components/sections/Execution";
-import { PhysicalProtection } from "@/components/sections/PhysicalProtection";
 import { Team } from "@/components/sections/Team";
 import { Resolution } from "@/components/sections/Resolution";
 import { Contact } from "@/components/sections/Contact";
@@ -20,7 +19,6 @@ export default function Home() {
       <Uniqueness />
       <Playbook />
       <Execution />
-      <PhysicalProtection />
       <Team />
       <Resolution />
       <Contact />

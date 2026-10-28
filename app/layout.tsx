@@ -31,8 +31,8 @@ export const metadata: Metadata = {
   description:
     "P32: Defense Solution Architects. An objective, trusted executor operating without conflict of interest across the full defense technology lifecycle.",
   icons: {
-    icon: assetPath("/icon.png"),
-    apple: assetPath("/apple-icon.png"),
+    icon: assetPath("/icon.png?v=star"),
+    apple: assetPath("/apple-icon.png?v=star"),
   },
   openGraph: {
     title: "P32",

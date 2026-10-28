@@ -132,7 +132,7 @@ export const personnel = {
     { name: "Liron Farache", roles: ["CEO", "Director", "Co-Founder"], portrait: "liron-farache" },
     { name: "Boris Shaglov", roles: ["VP Business Development", "Director", "Co-Founder"], portrait: "boris-shaglov" },
     { name: "Daniel Goldberg", roles: ["COO", "Director", "Co-Founder"], portrait: "daniel-goldberg" },
-    { name: "Guy Farache", roles: ["CGO, USA, Canada & Australia", "Co-Founder"], portrait: "guy-farache" },
+    { name: "Guy Farache", roles: ["CRO"], portrait: "guy-farache" },
     { name: "Boris Plis", roles: ["CTO", "Co-Founder"], portrait: "boris-plis" },
     { name: "Hiday Levi", roles: ["CFO"] },
     { name: "Dana Toren", roles: ["Head of Cyber"], portrait: "dana-toren" },

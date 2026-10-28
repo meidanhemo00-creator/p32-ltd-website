@@ -95,7 +95,7 @@ export const team = {
     "From the units that faced these challenges.",
   ],
   // Client's motto (October 2026), set after the team portraits.
-  motto: { mark: "SERVE", rest: "= Serving Those Who Serve" },
+  motto: "SERVE",
   // Closing line chosen by the client (October 2026), leading into Contact.
   closing: ["Some of our work can't be shown here.", "Let's talk about yours."],
   cta: "Get in touch",

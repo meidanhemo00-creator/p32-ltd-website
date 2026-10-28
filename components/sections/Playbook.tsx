@@ -14,29 +14,28 @@ import { splitWords } from "@/lib/splitWords";
 // tall, so the list reads as a table of contents. Click/Enter to switch, not
 // hover: opening a row moves the rows below it, which must not happen under
 // a passing cursor.
+// Client-supplied stills (October 2026), one per step in order. Already
+// low-key, so they are shown at full brightness (see NasaPhoto).
 const STEP_PHOTOS = [
   {
-    // Real, unstaged workshop photograph (NASA public domain, see
-    // ASSET_CREDITS.md): an engineering technician at a milling machine --
-    // hands-on breakdown of a problem into parts. No logos in frame.
-    src: "/media/nasa/optimized/fabrication-shop-milling.webp",
-    alt: "An engineering technician operating a milling machine in a fabrication workshop",
-    objectPosition: "62% 40%",
+    src: "/media/playbook/01-plan-table.webp",
+    alt: "Two people studying a floor plan spread on a table under a single hanging lamp",
+    objectPosition: "55% 50%",
   },
   {
-    src: "/media/nasa/optimized/blue-marble-earth.webp",
-    alt: "Blue Marble composite of Earth's full disc, land and cloud cover (NASA)",
-    objectPosition: "48% 22%",
+    src: "/media/playbook/02-device-hands.webp",
+    alt: "Hands examining a small metal device in a dark workroom",
+    objectPosition: "50% 55%",
   },
   {
-    src: "/media/nasa/optimized/city-lights-lucknow.webp",
-    alt: "Satellite view of dense urban infrastructure and lights, Lucknow (NASA)",
-    objectPosition: "center",
+    src: "/media/playbook/03-electronics-bench.webp",
+    alt: "An engineer working on an open electronics enclosure under a desk lamp",
+    objectPosition: "55% 55%",
   },
   {
-    src: "/media/nasa/optimized/black-marble-earth-at-night.webp",
-    alt: "Satellite composite of Earth's city lights at night (NASA Black Marble)",
-    objectPosition: "58% 38%",
+    src: "/media/playbook/04-field-equipment.webp",
+    alt: "A person walking past equipment and a mounted camera under a work light",
+    objectPosition: "60% 50%",
   },
 ];
 
@@ -77,7 +76,8 @@ export function Playbook() {
                   objectPosition={photo.objectPosition}
                   sizes="(min-width: 1024px) 58vw, 100vw"
                   gradient="180deg, rgba(0,0,0,0) 62%, rgba(0,0,0,0.5) 100%"
-                  contrast={1.08}
+                  contrast={1}
+                  brightness={1}
                 />
               </div>
             ))}
@@ -141,16 +141,15 @@ export function Playbook() {
                       </div>
                       {/* Phones: the photo opens with its step, so a change
                           is always on screen (the desktop stage is hidden). */}
-                      {/* The world maps carry a ragged polar edge at their
-                          full height; a slight zoom keeps it out of frame. */}
-                      <div className="relative mb-7 aspect-[4/3] overflow-hidden bg-p32-gray-100 lg:hidden [&_img]:scale-[1.15]">
+                      <div className="relative mb-7 aspect-[4/3] overflow-hidden bg-p32-gray-100 lg:hidden">
                         <NasaPhoto
                           src={STEP_PHOTOS[i].src}
                           alt={STEP_PHOTOS[i].alt}
                           objectPosition={STEP_PHOTOS[i].objectPosition}
                           sizes="100vw"
                           gradient="180deg, rgba(0,0,0,0) 70%, rgba(0,0,0,0.3) 100%"
-                          contrast={1.08}
+                          contrast={1}
+                          brightness={1}
                         />
                       </div>
                     </div>

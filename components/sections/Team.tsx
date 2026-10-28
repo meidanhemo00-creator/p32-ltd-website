@@ -80,18 +80,15 @@ export function Team() {
 
       <Personnel />
 
-      {/* The motto, set between hairlines as its own beat before the close. */}
+      {/* The motto, SERVE², set alone between hairlines before the close. */}
       <div className="p32-container mt-20 md:mt-28">
         <p
           data-reveal="up"
-          className="border-y border-p32-gray-800 py-10 text-center font-display text-2xl font-medium tracking-tight sm:text-4xl md:py-14"
+          className="border-y border-p32-gray-800 py-10 text-center font-display text-2xl font-medium tracking-tight text-p32-white sm:text-4xl md:py-14"
           style={{ textWrap: "balance" }}
         >
-          <span className="text-p32-white">
-            {team.motto.mark}
-            <sup className="ml-[0.04em] text-[0.55em] text-p32-signal">2</sup>
-          </span>{" "}
-          <span className="text-p32-gray-500">{team.motto.rest}</span>
+          {team.motto}
+          <sup className="ml-[0.04em] text-[0.55em] text-p32-signal">2</sup>
         </p>
       </div>
 

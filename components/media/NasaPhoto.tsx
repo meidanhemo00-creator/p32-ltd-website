@@ -13,6 +13,7 @@ export function NasaPhoto({
   priority = false,
   gradient = "180deg, rgba(0,0,0,0.15), rgba(2,8,10,0.6)",
   contrast = 1.15,
+  brightness = 0.85,
   sizes = "100vw",
   reveal = false,
 }: {
@@ -22,6 +23,7 @@ export function NasaPhoto({
   priority?: boolean;
   gradient?: string;
   contrast?: number;
+  brightness?: number;
   sizes?: string;
   reveal?: boolean;
 }) {
@@ -36,7 +38,7 @@ export function NasaPhoto({
         style={{
           objectFit: "cover",
           objectPosition,
-          filter: `grayscale(1) contrast(${contrast}) brightness(0.85)`,
+          filter: `grayscale(1) contrast(${contrast}) brightness(${brightness})`,
         }}
       />
       <div

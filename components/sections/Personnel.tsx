@@ -13,6 +13,10 @@ import { assetPath } from "@/lib/basePath";
 // all seven sit as one series. Hover/focus lifts them from a softer to a
 // firmer monochrome and extends the pale-blue index rule; nothing is hidden
 // behind hover -- names and roles are always visible, on every device.
+// Bump when portrait files are replaced in place: the host caches images for
+// a day by URL, so a new query string is what makes visitors fetch the new set.
+const PORTRAIT_VERSION = "2026-10-28";
+
 function PersonEntry({ person, index }: { person: Person; index: number }) {
   return (
     <li data-reveal="up" style={{ "--reveal-index": index } as CSSProperties}>
@@ -24,7 +28,7 @@ function PersonEntry({ person, index }: { person: Person; index: number }) {
         <div className="relative aspect-square overflow-hidden bg-p32-gray-800">
           {person.portrait ? (
             <Image
-              src={assetPath(`/media/team/portraits/${person.portrait}.webp`)}
+              src={assetPath(`/media/team/portraits/${person.portrait}.webp?v=${PORTRAIT_VERSION}`)}
               alt={`Portrait of ${person.name}`}
               fill
               sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 112px"

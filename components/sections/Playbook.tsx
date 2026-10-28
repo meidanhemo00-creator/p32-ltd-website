@@ -47,14 +47,14 @@ export function Playbook() {
   // White, continuing the Approach section above it with no break; its
   // bottom padding already separates them, so this one starts close.
   return (
-    <section className="p32-section tx-grain-light bg-p32-white text-p32-black" id="playbook" style={{ paddingTop: "1rem" }}>
+    <section className="p32-section tx-grain-light bg-p32-white text-p32-black" id="how-we-work" style={{ paddingTop: "1rem" }}>
       <div className="p32-container">
         <div>
           <h2
             data-reveal="words"
             className="font-display text-4xl font-medium uppercase leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
           >
-            {splitWords("The Playbook")}
+            {splitWords("How We Work")}
           </h2>
         </div>
 

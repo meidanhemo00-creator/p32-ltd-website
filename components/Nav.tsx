@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { P32LogoOnDark } from "./Logo";
 
-const links = [["#approach", "Our approach"], ["#playbook", "The playbook"], ["#team", "The team"], ["#contact", "Contact"]];
+const links = [["#approach", "Our approach"], ["#how-we-work", "How we work"], ["#team", "The team"], ["#contact", "Contact"]];
 
 export function Nav() {
   const [open, setOpen] = useState(false);

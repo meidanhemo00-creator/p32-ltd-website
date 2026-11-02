@@ -140,6 +140,8 @@ export const personnel = {
     { name: "Erez Shitrit", roles: ["Regional Account Manager"], portrait: "erez-shitrit" },
     { name: "Eran Mesika", roles: ["Head of Security & Regulation"], portrait: "eran-mesika" },
     { name: "Amit Friedman", roles: ["Chief of Staff"], portrait: "amit-friedman" },
+    { name: "Jason Kozin", roles: ["M&A and Strategy Lead", "P32 US"], portrait: "jason-kozin" },
+    { name: "Tair Tal", roles: ["Operations Lead", "P32 US"], portrait: "tair-tal" },
     { name: "Yuval Segev", roles: ["Senior Advisor, National-Level Cyber Strategy"], portrait: "yuval-segev" },
   ] satisfies Person[],
 };

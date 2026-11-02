@@ -15,7 +15,7 @@ import { assetPath } from "@/lib/basePath";
 // behind hover -- names and roles are always visible, on every device.
 // Bump when portrait files are replaced in place: the host caches images for
 // a day by URL, so a new query string is what makes visitors fetch the new set.
-const PORTRAIT_VERSION = "2026-10-28";
+const PORTRAIT_VERSION = "2026-11-02";
 
 function PersonEntry({ person, index }: { person: Person; index: number }) {
   return (

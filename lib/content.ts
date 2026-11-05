@@ -134,7 +134,7 @@ export const personnel = {
     { name: "Daniel Goldberg", roles: ["COO", "Director", "Co-Founder"], portrait: "daniel-goldberg" },
     { name: "Guy Farache", roles: ["CRO", "Co-Founder"], portrait: "guy-farache" },
     { name: "Boris Plis", roles: ["CTO", "Co-Founder"], portrait: "boris-plis" },
-    { name: "Hiday Levi", roles: ["CFO"] },
+    { name: "Hiday Levi", roles: ["CFO"], portrait: "hiday-levi" },
     { name: "Dana Toren", roles: ["Head of Cyber"], portrait: "dana-toren" },
     { name: "Alicja Górska", roles: ["Mission Operations Lead"], portrait: "alicja-gorska" },
     { name: "Erez Shitrit", roles: ["Regional Account Manager"], portrait: "erez-shitrit" },
